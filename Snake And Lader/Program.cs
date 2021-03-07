@@ -2,67 +2,88 @@ using System;
 
 namespace SnakeAndLader
 {
-    class Program
-    {
-        public const int START_POINT = 0;
-        public const int END_POINT = 100;
-        public const int NO_PLAY = 0;
-        public const int SNAKE = 1;
-        public const int LADDER = 2;
-
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello Welcome To Snake And Lader Problem \nEnter player name");
-            string player1 = Console.ReadLine();
-            int playerCurrentPosition = START_POINT;
-            for (int noOfTimesDiceRolled = 1; playerCurrentPosition >= 0; noOfTimesDiceRolled++)
-            {
-                int diceRoll = DiceRoll();
-                Console.WriteLine("You rolled: " + diceRoll);
-                playerCurrentPosition = PlayerMovement(diceRoll, playerCurrentPosition);
-                Console.WriteLine("Your position Number is : " + playerCurrentPosition);
-                if (playerCurrentPosition >= 100)
-                {
-                    Console.WriteLine("Game Over");
-                    break;
-                }
-                Console.ReadLine();
-            }
-        }
-        static int DiceRoll()
-        {
-            Random random = new Random();
-            int diceNum = random.Next(1, 7);
-            return diceNum;
-        }
-
-        static int PlayerMovement(int numbRolled, int postionPlayer)
-        {
-            Random random = new Random();
-            int move = random.Next(0, 3);
-            switch (move)
-            {
-                case NO_PLAY:
-                    Console.WriteLine("No Play");
-                    break;
-                case SNAKE:
-                    Console.WriteLine("You Are Bitten by Snake");
-                    if (postionPlayer - numbRolled >= 0)
-                    {
-                        postionPlayer = postionPlayer - numbRolled;
-                        break;
-                    }
-                    else
-                    {
-                        postionPlayer = START_POINT;
-                        break;
-                    }
-                case LADDER:
-                    Console.WriteLine("You Got Ladder");
-                    postionPlayer = postionPlayer + numbRolled;
-                    break;
-            }
-            return postionPlayer;
-        }
-    }
+	class Program
+	{
+		public const int NO_OF_PLAYERS = 1;
+		public const int INITIAL_POSITION = 0;
+		public const int NO_PLAY = 0;
+		public const int LADDER = 1;
+		public const int SNAKE = 2;
+		public const int WINNING_POSITION = 100;
+		static void Main(String[] args)
+		{
+			int playerOnePosition = INITIAL_POSITION;
+			int playerTwoPosition = INITIAL_POSITION;
+			bool firstPlayer = true;
+			Console.WriteLine("===Hello!!Welcome to Snake Ladder Game!!===");
+			Console.WriteLine("Both players are at the starting position");
+			while (playerOnePosition != WINNING_POSITION && playerTwoPosition != WINNING_POSITION)
+			{
+				if (firstPlayer)
+				{
+					Random value = new Random();
+					int diceValue = value.Next(1, 7);
+					Console.WriteLine("First Player rolled Dice: " + diceValue);
+					int actionTaken = value.Next(0, 3);
+					if (actionTaken == NO_PLAY)
+					{
+						firstPlayer = false;
+					}
+					else if (actionTaken == LADDER)
+					{
+						playerOnePosition += diceValue;
+						if (playerOnePosition > WINNING_POSITION)
+						{
+							playerOnePosition -= diceValue;
+						}
+					}
+					else
+					{
+						firstPlayer = false;
+						playerOnePosition -= diceValue;
+						if (playerOnePosition < INITIAL_POSITION)
+						{
+							playerOnePosition = INITIAL_POSITION;
+						}
+					}
+				}
+				else
+				{
+					Random random = new Random();
+					int diceValue = random.Next(1, 7);
+					Console.WriteLine("Second Player rolled Dice : " + diceValue);
+					int actionTaken = random.Next(0, 3);
+					if (actionTaken == NO_PLAY)
+					{
+						firstPlayer = true;
+					}
+					else if (actionTaken == LADDER)
+					{
+						playerTwoPosition += diceValue;
+						if (playerTwoPosition > WINNING_POSITION)
+						{
+							playerTwoPosition -= diceValue;
+						}
+					}
+					else
+					{
+						firstPlayer = true;
+						playerTwoPosition -= diceValue;
+						if (playerTwoPosition < INITIAL_POSITION)
+						{
+							playerTwoPosition = INITIAL_POSITION;
+						}
+					}
+				}
+			}
+			if (playerOnePosition == WINNING_POSITION)
+			{
+				Console.WriteLine("Player 1 won the game");
+			}
+			else
+			{
+				Console.WriteLine("Player 2 won the game");
+			}
+		}
+	}
 }
