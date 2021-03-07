@@ -2,8 +2,8 @@ using System;
 
 namespace SnakeAndLader
 {
-	class Program
-	{
+    class Program
+    {
 		public const int NO_OF_PLAYERS = 1;
 		public const int INITIAL_POSITION = 0;
 		public const int NO_PLAY = 0;
