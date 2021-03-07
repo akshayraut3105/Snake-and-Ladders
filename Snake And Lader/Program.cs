@@ -10,8 +10,14 @@ namespace SnakeAndLader
         {
             Console.WriteLine("Hello Welcome To Snake And Lader Problem \nEnter player name");
             string player1 = Console.ReadLine();
-            int playerPosition = START_POINT;
-            Console.WriteLine("Current Position : " + playerPosition);
+            int diceRoll = DiceRoll();
+            Console.WriteLine("Dice Roll : " + diceRoll);
+        }
+        static int DiceRoll()
+        {
+            Random random = new Random();
+            int diceNum = random.Next(1, 7);
+            return diceNum;
         }
     }
 }
